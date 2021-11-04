@@ -1,5 +1,6 @@
 # Terraform AWS EC2 Module
 
+![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/aramirol/terraform-aws-ec2-module?logo=github)
 ![](https://img.shields.io/badge/terraform-v1.0.9-blueviolet?logo=terraform)
 ![](https://img.shields.io/badge/aws-3.63.0-yellow?logo=amazonaws)
 ![](https://img.shields.io/badge/localstack-latest-white?logo=github)
