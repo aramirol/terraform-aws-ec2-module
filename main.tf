@@ -7,7 +7,7 @@ resource "aws_instance" "instance_test_basic" {
 
   tags = {
     System = "Linux AMI"
-    Name = "Instance test"
+    Name = "Instance Basic"
   }
 }
 
@@ -18,7 +18,7 @@ resource "aws_instance" "instance_test_pro" {
 
   tags = {
     System = "Linux AMI"
-    Name = "Instance test"
+    Name = "Instance Pro"
   }
 }
 
