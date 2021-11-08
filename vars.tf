@@ -5,10 +5,14 @@ variable "instance_count" {
   default = "1"
 }
 
-variable "instance_type" {
+variable "instance_type_basic" {
+  description = "Type of instances"
+  default = "t2.nano"
+}
+
+variable "instance_type_pro" {
   description = "Type of instances"
   default = "t2.micro"
-}
 
 variable "instance_ami" {
   description = "Amazon Linux instance"
