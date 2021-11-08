@@ -5,7 +5,7 @@ output "instances_ip" {
 
 output "instances_type" {
   description = "Instance Type "
-  value       = aws_instance.instance_test_basic.*.instance_type
+  value       = "${module.ec2_basic.*.instance_type}"
 }
 
 #output "instances_id" {
