@@ -13,6 +13,7 @@ variable "instance_type_basic" {
 variable "instance_type_pro" {
   description = "Type of instances"
   default = "t2.micro"
+}
 
 variable "instance_ami" {
   description = "Amazon Linux instance"
