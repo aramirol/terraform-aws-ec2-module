@@ -36,13 +36,13 @@ provider "aws" {
 # EC2 module
 
 module "ec2_basic" {
-  source          = "../"
+  source = "../"
 
   ec2_create = ["instance_basic"]
 }
 
 module "ec2_pro" {
-  source  = "../"
+  source = "../"
 
   ec2_create = ["instance_pro"]
 }
