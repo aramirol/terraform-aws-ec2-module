@@ -66,6 +66,24 @@ try {
       }
     }
 
+    // Run terraform otuputs
+    stage('output') {
+      node {
+        dir (TEST_DIR) {
+          withCredentials([[
+            $class: 'AmazonWebServicesCredentialsBinding',
+            credentialsId: credentialsId,
+            accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+            secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+          ]]) {
+            ansiColor('xterm') {
+              sh 'terraform output'
+            }
+          }
+        }
+      }
+    }
+
     // Run terraform show
     stage('show') {
       node {
