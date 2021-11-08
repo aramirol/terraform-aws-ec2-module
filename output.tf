@@ -1,6 +1,6 @@
 output "instances_ip" {
   description = "Instance IP"
-  value       = "${aws_instance.instance_test_*.*.public_ip}"
+  value       = "${aws_instance.*.*.public_ip}"
 }
 
 #output "instances_type" {
