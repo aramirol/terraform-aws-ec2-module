@@ -46,35 +46,3 @@ module "ec2_pro" {
 
   ec2_create = ["instance_pro"]
 }
-
-# EC2 outputs
-
-output "instances_ip_basic" {
-  description = "Instance IP"
-  value       = module.ec2_basic.instances_ip
-}
-
-output "instances_type_basic" {
-  description = "Instance Type "
-  value       = module.ec2_basic.instances_type
-}
-
-output "instances_id_basic" {
-  description = "Instance ID "
-  value       = module.ec2_basic.instances_id
-}
-
-output "instances_ip_pro" {
-  description = "Instance IP"
-  value       = module.ec2_pro.instances_ip
-}
-
-output "instances_type_pro" {
-  description = "Instance Type "
-  value       = module.ec2_pro.instances_type
-}
-
-output "instances_id_pro" {
-  description = "Instance ID "
-  value       = module.ec2_pro.instances_id
-}
