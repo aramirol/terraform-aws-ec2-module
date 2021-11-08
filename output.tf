@@ -10,5 +10,5 @@ output "instances_type" {
 
 output "instances_id" {
   description = "Instance ID "
-  value       = aws_instance.${var.ec2_create}.*.id
+  value       = "${aws_instance.${var.ec2_create}.*.id}"
 }
