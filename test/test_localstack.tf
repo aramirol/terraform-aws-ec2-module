@@ -35,6 +35,14 @@ provider "aws" {
 
 # EC2 module
 
-module "ec2" {
+module "ec2_basic" {
   source          = "../"
+
+  ec2_create = ["instance_basic"]
+}
+
+module "ec2_pro" {
+  source  = "../"
+
+  ec2_create = ["instance_pro"]
 }
