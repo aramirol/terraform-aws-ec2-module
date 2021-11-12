@@ -32,12 +32,12 @@ output "instances_id_pro" {
   value       = "${aws_instance.instance_pro.*.id}"
 }
 
-output "instances_all" {
+output "instances_all_basic" {
   description = "Show all"
   value       = module.ec2_basic.*
 }
 
-output "instances_all" {
+output "instances_all_pro" {
   description = "Show all"
   value       = module.ec2_pro.*
 }
