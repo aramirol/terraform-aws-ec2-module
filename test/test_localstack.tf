@@ -46,3 +46,13 @@ module "ec2_pro" {
 
   ec2_create = ["instance_pro"]
 }
+
+output "instances_all_basic" {
+  description = "Show all"
+  value       = module.ec2_basic.*
+}
+
+output "instances_all_pro" {
+  description = "Show all"
+  value       = module.ec2_pro.*
+}
