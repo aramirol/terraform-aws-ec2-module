@@ -3,7 +3,7 @@
 output "instances_ip_basic" {
   description = "Instance IP Basic"
 #  value       = "${aws_instance.instance_basic.*.public_ip}"
-  value       = contains(var.ec2_create, "ec2_basic") != true ? null : aws_instance.instance_basic.*.public_ip
+  value       = contains(var.ec2_create, "ec2_basic") != true ? null : "${aws_instance.instance_basic.*.public_ip}"
 }
 
 output "instances_type_basic" {
