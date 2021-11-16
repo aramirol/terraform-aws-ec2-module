@@ -5,7 +5,7 @@ output "instances_ip_basic" {
   value       = contains(var.ec2_create, "instance_basic") == true ? aws_instance.instance_basic.*.public_ip : null
 
   depends_on = [
-    var.ec2_create == instance_basic
+    aws_instance.instance_basic,
   ]
 }
 
