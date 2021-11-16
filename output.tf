@@ -3,6 +3,10 @@
 output "instances_ip_basic" {
   description = "Instance IP Basic"
   value       = contains(var.ec2_create, "instance_basic") == true ? aws_instance.instance_basic.*.public_ip : null
+
+  depends_on = [
+    var.ec2_create == instance_basic
+  ]
 }
 
 output "instances_type_basic" {
