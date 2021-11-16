@@ -1,11 +1,6 @@
 # EC2 vars
 
-variable "instance_type_basic" {
-  description = "Type of instances"
-  default = "t2.nano"
-}
-
-variable "instance_type_pro" {
+variable "instance_type" {
   description = "Type of instances"
   default = "t2.micro"
 }

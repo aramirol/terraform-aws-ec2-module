@@ -35,24 +35,13 @@ provider "aws" {
 
 # EC2 module
 
-module "ec2_basic" {
+module "ec2" {
   source = "../"
 
-  ec2_create = ["instance_basic"]
+  ec2_create = ["yes"]
 }
 
-module "ec2_pro" {
-  source = "../"
-
-  ec2_create = ["instance_pro"]
-}
-
-output "instances_all_basic" {
+output "instances_ec2" {
   description = "Show all"
-  value       = module.ec2_basic.*
-}
-
-output "instances_all_pro" {
-  description = "Show all"
-  value       = module.ec2_pro.*
+  value       = module.ec2.*
 }

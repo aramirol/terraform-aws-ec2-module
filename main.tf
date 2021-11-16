@@ -1,28 +1,14 @@
 # EC2 resource
 
-## Execute this resource if "ec2_create" var is instance_basic.
+## Execute this resource if "ec2_create" var is equal to yes.
 
-resource "aws_instance" "instance_basic" {
-  count         = contains(var.ec2_create, "instance_basic") != true ? 0 : 1
+resource "aws_instance" "instance_ec2" {
+  count         = contains(var.ec2_create, "yes") == true ? 1 : 0
   ami           = var.instance_ami
-  instance_type = var.instance_type_basic
+  instance_type = var.instance_type
 
   tags = {
     System = "Linux AMI"
-    Name = "Instance Basic"
+    Name = "Test Instance"
   }
 }
-
-## Execute this resource if "ec2_create" var is instance_pro.
-
-resource "aws_instance" "instance_pro" {
-  count         = contains(var.ec2_create, "instance_pro") != true ? 0 : 1
-  ami           = var.instance_ami
-  instance_type = var.instance_type_pro
-
-  tags = {
-    System = "Linux AMI"
-    Name = "Instance Pro"
-  }
-}
-
