@@ -65,7 +65,7 @@ try {
             ansiColor('xterm') {
               sh """
               terraform output --json > TERRAFORM_OUTPUT.json
-              /opt/python/3/bin/python3 -m venv .venv
+              python3 -m venv .venv
               source .venv/bin/activate
               pip install --upgrade pip
               pip install -r python-dependencies.txt
