@@ -19,17 +19,17 @@ output "instances_id_basic" {
 
 output "instances_ip_pro" {
   description = "Instance IP Pro"
-  value       = contains(var.ec2_create, "ec2_pro") == true ? aws_instance.instance_pro.*.public_ip : null
+  value       = contains(var.ec2_create, "instance_pro") == true ? aws_instance.instance_pro.*.public_ip : null
 }
 
 output "instances_type_pro" {
   description = "Instance Type Pro"
-  value       = contains(var.ec2_create, "ec2_pro") == true ? aws_instance.instance_pro.*.instance_type : null
+  value       = contains(var.ec2_create, "instance_pro") == true ? aws_instance.instance_pro.*.instance_type : null
 }
 
 output "instances_id_pro" {
   description = "Instance ID Pro"
-  value       = contains(var.ec2_create, "ec2_pro") == true ? aws_instance.instance_pro.*.id : null
+  value       = contains(var.ec2_create, "instance_pro") == true ? aws_instance.instance_pro.*.id : null
 }
 
 
