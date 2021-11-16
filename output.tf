@@ -6,6 +6,14 @@ output "instances_ip_basic" {
 #  value       = contains(var.ec2_create, "ec2_basic") != true ? null : "${aws_instance.instance_basic.*.public_ip}"
 }
 
+output "test-1" {
+  value = var.instance_type_basic == "t2.micro" ? aws_instance.instance_basic.*.public_ip : null
+}
+
+output "test-2" {
+  value = contains(var.ec2_create, "instance_basic") == true ? aws_instance.instance_basic.*.public_ip : null
+}
+
 output "instances_type_basic" {
   description = "Instance Type Basic"
   value       = "${aws_instance.instance_basic.*.instance_type}"
