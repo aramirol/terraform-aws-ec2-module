@@ -22,9 +22,9 @@ try {
         ]]) {
           ansiColor('xterm') {
             sh """
-            /opt/terraform/terraform init
-            /opt/terraform/terraform validate
-            /opt/terraform/terraform plan
+            terraform init
+            terraform validate
+            terraform plan
             """
           }
         }
