@@ -38,7 +38,7 @@ provider "aws" {
 module "ec2" {
   source = "../"
 
-  ec2_create = ["not"]
+  ec2_create = ["yes"]
 }
 
 output "instances_ec2" {
