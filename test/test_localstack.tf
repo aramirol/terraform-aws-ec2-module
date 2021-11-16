@@ -1,13 +1,14 @@
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/guides/custom-service-endpoints#localstack
 
 provider "aws" {
-  access_key                  = "mock_access_key"
+  #access_key                  = "mock_access_key"
   region                      = "eu-central-1"
-  s3_force_path_style         = true
-  secret_key                  = "mock_secret_key"
-  skip_credentials_validation = true
-  skip_metadata_api_check     = true
-  skip_requesting_account_id  = true
+  shared_credentials_file     = "/$HOME/.aws/credentials"
+  #s3_force_path_style         = true
+  #secret_key                  = "mock_secret_key"
+  #skip_credentials_validation = true
+  #skip_metadata_api_check     = true
+  #skip_requesting_account_id  = true
 
 #  endpoints {
 #    apigateway     = "http://192.168.1.196:31566" 
