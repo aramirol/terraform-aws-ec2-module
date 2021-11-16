@@ -1,7 +1,7 @@
 // Jenkinsfile
 String credentialsId = 'aws_test'
 
-def TEST_DIR='./test'
+def TEST_DIR='./tests'
 
 try {
   stage('checkout') {
@@ -10,8 +10,8 @@ try {
       checkout scm
     }
   }
-  // Run terraform init
-  stage('init') {
+  // Run terraform init, validate and plan
+  stage('check code') {
     node {
       dir (TEST_DIR) {
         withCredentials([[
@@ -21,26 +21,12 @@ try {
           secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
         ]]) {
           ansiColor('xterm') {
-            sh 'terraform init'
+            sh """
+            /opt/terraform/terraform init
+            /opt/terraform/terraform validate
+            /opt/terraform/terraform plan
+            """
           }
-        }
-      }
-    }
-  }
-
-  // Run terraform plan
-  stage('plan') {
-    node {
-      dir (TEST_DIR) {
-        withCredentials([[
-          $class: 'AmazonWebServicesCredentialsBinding',
-          credentialsId: credentialsId,
-          accessKeyVariable: 'AWS_ACCESS_KEY_ID',
-          secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
-        ]]) {
-          ansiColor('xterm') {
-            sh 'terraform plan'     
-          }   
         }
       }
     }
@@ -49,7 +35,7 @@ try {
   if (env.BRANCH_NAME == 'main') {
 
     // Run terraform apply
-    stage('apply') {
+    stage('terraform apply') {
       node {
         dir (TEST_DIR) {
           withCredentials([[
@@ -67,7 +53,7 @@ try {
     }
 
     // Run terraform otuputs
-    stage('output') {
+    stage('run unit test') {
       node {
         dir (TEST_DIR) {
           withCredentials([[
@@ -77,25 +63,14 @@ try {
             secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
           ]]) {
             ansiColor('xterm') {
-              sh 'terraform output'
-            }
-          }
-        }
-      }
-    }
-
-    // Run terraform show
-    stage('show') {
-      node {
-        dir (TEST_DIR) {
-          withCredentials([[
-            $class: 'AmazonWebServicesCredentialsBinding',
-            credentialsId: credentialsId,
-            accessKeyVariable: 'AWS_ACCESS_KEY_ID',
-            secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
-          ]]) {
-            ansiColor('xterm') {
-              sh 'terraform show'
+              sh """
+              terraform output --json > TERRAFORM_OUTPUT.json
+              /opt/python/3/bin/python3 -m venv .venv
+              source .venv/bin/activate
+              pip install --upgrade pip
+              pip install -r python-dependencies.txt
+              python3 -m py.test -v -s --color=yes --junit-xml reports/junit_out.xml ../tests
+              """
             }
           }
         }
