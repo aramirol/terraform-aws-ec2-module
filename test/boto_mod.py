@@ -1,7 +1,7 @@
 import boto3
 
 
-class mod_test_vpc:
+class mod_test_ec2:
 
     def __init__(self, region, vpc_id):
         self.region = region
