@@ -1,9 +1,9 @@
 name: verify
 title: InSpec Profile
-maintainer: The Authors
+maintainer: Angel Ramiro
 
-copyright: The Authors
-copyright_email: you@example.com
+copyright: Angel Ramiro
+copyright_email: angel.ramirolatorre@gmail.com
 
 license: Apache-2.0
 summary: An InSpec Compliance Profile
