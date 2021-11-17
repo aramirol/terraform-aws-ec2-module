@@ -24,13 +24,13 @@ def credentialsForTestWrapper(block) {
 def TEST_DIR='./tests'
 
 pipeline{
-    agent {
-        label 'CCC-WORKER'
-    }
+//    agent {
+//        label 'CCC-WORKER'
+//    }
 
     options {
         ansiColor('xterm')
-        lock resource: 'terraform_landing_network'
+//        lock resource: 'terraform_landing_network'
     }
 
     stages {
