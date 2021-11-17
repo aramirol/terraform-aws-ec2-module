@@ -17,5 +17,5 @@ output "instance_id" {
 
 output "instance_name" {
   description = "Instance Name"
-  value       = contains(var.ec2_create, "yes") == true ? aws_instance.instance_ec2.*.instance_name : null 
+  value       = contains(var.ec2_create, "yes") == true ? aws_instance.instance_ec2.*.name : null 
 }
