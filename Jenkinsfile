@@ -64,8 +64,6 @@ try {
           ]]) {
             ansiColor('xterm') {
               sh """
-              echo ${AWS_ACCESS_KEY_ID}
-              echo ${AWS_SECRET_ACCESS_KEY}
               terraform output --json > ./verify/files/terraform.json
               inspec exec verify --chef-license accept-silent --reporter cli junit:verify/files/testresults.xml -t aws://
               """
