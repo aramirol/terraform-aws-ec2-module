@@ -1,111 +1,84 @@
-// Jenkinsfile
-String credentialsId = 'aws_test'
+def credentialsForTestWrapper(block) {
+    // it's a module repo, we only use dev credentials for developing and testing
+    // once code has been merged to master, use dev credentials to finish the unit testing
+    withCredentials([
+        [
+            $class: 'ConjurSecretApplianceCredentialsBinding',
+            credentialsId: "cpiactoolchain",
+            sPath: "projects/iactcprd/prod/variables/TERRA_EXAMPLE_AK",
+            // variable: 'TERRA_EXAMPLE_AK'
+            variable: 'AWS_ACCESS_KEY_ID'
+        ],
+        [
+            $class: 'ConjurSecretApplianceCredentialsBinding',
+            credentialsId: "cpiactoolchain",
+            sPath: "projects/iactcprd/prod/variables/TERRA_EXAMPLE_SK",
+            // variable: 'TERRA_EXAMPLE_SK'
+            variable: 'AWS_SECRET_ACCESS_KEY'
+        ],
+    ]) {
+        block.call()
+    }
+}
 
 def TEST_DIR='./tests'
 
-try {
-  stage('checkout') {
-    node {
-      cleanWs()
-      checkout scm
+pipeline{
+    agent {
+        label 'CCC-WORKER'
     }
-  }
-  // Run terraform init, validate and plan
-  stage('check code') {
-    node {
-      dir (TEST_DIR) {
-        withCredentials([[
-          $class: 'AmazonWebServicesCredentialsBinding',
-          credentialsId: credentialsId,
-          accessKeyVariable: 'AWS_ACCESS_KEY_ID',
-          secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
-        ]]) {
-          ansiColor('xterm') {
-            sh """
-            terraform init
-            terraform validate
-            terraform plan
-            """
-          }
-        }
-      }
+
+    options {
+        ansiColor('xterm')
+        lock resource: 'terraform_landing_network'
     }
-  }
 
-  if (env.BRANCH_NAME == 'main') {
-
-    // Run terraform apply
-    stage('terraform apply') {
-      node {
-        dir (TEST_DIR) {
-          withCredentials([[
-            $class: 'AmazonWebServicesCredentialsBinding',
-            credentialsId: credentialsId,
-            accessKeyVariable: 'AWS_ACCESS_KEY_ID',
-            secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
-          ]]) {
-            ansiColor('xterm') {
-              sh 'terraform apply -auto-approve'
+    stages {
+        stage("Apply Terraform resources on Cloud") {
+            steps {
+              dir (TEST_DIR) {
+                credentialsForTestWrapper {
+                    sh """
+                    /opt/terraform/terraform init
+                    /opt/terraform/terraform validate
+                    /opt/terraform/terraform plan
+                    /opt/terraform/terraform apply -auto-approve -parallelism=2
+                    """
+                }
+              }
             }
-          }
         }
-      }
+
+        stage("Run unit test") {
+            steps {
+              dir (TEST_DIR) {
+                credentialsForTestWrapper {
+                    sh """
+                    terraform output --json > TERRAFORM_OUTPUT.json
+                    /opt/python/3/bin/python3 -m venv .venv
+                    source .venv/bin/activate
+                    pip install --upgrade pip
+                    pip install -r python-dependencies.txt
+                    source .venv/bin/activate
+                    python3 -m py.test -v -s --color=yes --junit-xml reports/junit_out.xml ../tests
+                    """
+                }
+              }
+            }
+        }
     }
 
-    // Run terraform otuputs
-    stage('run unit test') {
-      node {
-        dir (TEST_DIR) {
-          withCredentials([[
-            $class: 'AmazonWebServicesCredentialsBinding',
-            credentialsId: credentialsId,
-            accessKeyVariable: 'AWS_ACCESS_KEY_ID',
-            secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
-          ]]) {
-            ansiColor('xterm') {
-              sh """
-              terraform output --json > TERRAFORM_OUTPUT.json
-              python3 -m venv .venv
-              source .venv/bin/activate
-              pip install --upgrade pip
-              pip install -r python-dependencies.txt
-              python3 -m py.test -v -s --color=yes --junit-xml reports/junit_out.xml ../tests
-              """
-            }
+    post {
+        always {
+          dir (TEST_DIR) {
+           credentialsForTestWrapper {
+              sh "/opt/terraform/terraform destroy -auto-approve -parallelism=2"
+           }
+             junit allowEmptyResults: true, testResults: 'reports/junit_out.xml'
           }
         }
-      }
-    }
-
-    // Run terraform destroy
-    stage('destroy') {
-      node {
-        dir (TEST_DIR) {
-          withCredentials([[
-            $class: 'AmazonWebServicesCredentialsBinding',
-            credentialsId: credentialsId,
-            accessKeyVariable: 'AWS_ACCESS_KEY_ID',
-            secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
-          ]]) {
-            ansiColor('xterm') {
-              sh 'terraform destroy -auto-approve'
-            }
-          }
+        cleanup {
+            cleanWs()
         }
-      }
     }
-  }
-  currentBuild.result = 'SUCCESS'
-}
-catch (org.jenkinsci.plugins.workflow.steps.FlowInterruptedException flowError) {
-  currentBuild.result = 'ABORTED'
-}
-catch (err) {
-  currentBuild.result = 'FAILURE'
-  throw err
-}
-finally {
-  if (currentBuild.result == 'SUCCESS') {
-    currentBuild.result = 'SUCCESS'
-  }
 }
