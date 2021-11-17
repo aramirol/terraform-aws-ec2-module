@@ -11,7 +11,7 @@ instanceName = params['instance_name']['value']
 
 # Controls
 control 'instance-control' do
-  title 'LSOE EC2 instance checks'
+  title 'Demo EC2 instance checks'
   desc 'Check that AWS EC2 instance has been correctly deployed'
 
   describe aws_ec2_instance(instanceId) do
