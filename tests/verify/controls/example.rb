@@ -1,8 +1,6 @@
 #!/usr/bin/env ruby
 # copyright: 2018, The Authors
 
-title 'two tier setup'
-
 # Input variables
 content = inspec.profile.file("terraform.json")
 params  = JSON.parse(content)
