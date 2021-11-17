@@ -64,7 +64,7 @@ try {
           ]]) {
             ansiColor('xterm') {
               sh """
-              /var/jenkins_home/workspace/terraform-aws-ec2-module_main/tests/terraform output --json > ./verify/files/terraform.json
+              terraform output --json > ./verify/files/terraform.json
               inspec exec verify -t aws://
               """
             }
