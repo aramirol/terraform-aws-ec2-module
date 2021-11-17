@@ -64,12 +64,8 @@ try {
           ]]) {
             ansiColor('xterm') {
               sh """
-              terraform output --json > TERRAFORM_OUTPUT.json
-              python3 -m venv .venv
-              source .venv/bin/activate
-              pip install --upgrade pip
-              pip install -r python-dependencies.txt
-              python -m pytest -o junit_family=xunit2 --junitxml=test-reports/junit.xml boto_mod.py
+              terraform output --json > verify/files/terraform.json
+              inspec exec verify -t aws://
               """
             }
           }
