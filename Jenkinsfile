@@ -65,7 +65,7 @@ try {
             ansiColor('xterm') {
               sh """
               terraform output --json > ./verify/files/terraform.json
-              inspec exec verify -t aws://
+              inspec exec verify --chef-license accept-silent -t aws://
               """
             }
           }
