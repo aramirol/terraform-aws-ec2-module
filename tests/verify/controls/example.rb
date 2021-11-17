@@ -4,7 +4,7 @@
 title 'two tier setup'
 
 # Input variables
-content = inspec.profile.file("terraforn.json")
+content = inspec.profile.file("terraform.json")
 params  = JSON.parse(content)
 
 # Get json values
