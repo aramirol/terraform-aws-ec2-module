@@ -64,6 +64,8 @@ try {
           ]]) {
             ansiColor('xterm') {
               sh """
+              pwd
+              echo $PATH
               terraform output --json > verify/files/terraform.json
               inspec exec verify -t aws://
               """
