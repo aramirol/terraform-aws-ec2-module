@@ -3,16 +3,6 @@ String credentialsId = 'aws_test'
 
 def TEST_DIR='./tests'
 
-// Inspec AWS profile files creation (credentials + config)
-def awsProfile = {
-  awsprofile = """
-  [${AWS_ACCOUNT_ID}]
-  aws_access_key_id = ${AWS_ACCESS_KEY_ID}
-  aws_secret_access_key = ${AWS_SECRET_ACCESS_KEY}
-  region = ${AWS_DEFAULT_REGION}
-"""
-}
-
 try {
   stage('checkout') {
     node {
