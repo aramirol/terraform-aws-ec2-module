@@ -10,8 +10,8 @@ try {
       checkout scm
     }
   }
-  // Run terraform init, validate and plan
-  stage('Terraform Init & Plan') {
+  // Run terraform init
+  stage('init') {
     node {
       dir (TEST_DIR) {
         withCredentials([[
@@ -21,12 +21,26 @@ try {
           secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
         ]]) {
           ansiColor('xterm') {
-            sh """
-            terraform init
-            terraform validate
-            terraform plan
-            """
+            sh 'terraform init'
           }
+        }
+      }
+    }
+  }
+
+  // Run terraform plan
+  stage('plan') {
+    node {
+      dir (TEST_DIR) {
+        withCredentials([[
+          $class: 'AmazonWebServicesCredentialsBinding',
+          credentialsId: credentialsId,
+          accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+          secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+        ]]) {
+          ansiColor('xterm') {
+            sh 'terraform plan'     
+          }   
         }
       }
     }
@@ -35,7 +49,7 @@ try {
   if (env.BRANCH_NAME == 'main') {
 
     // Run terraform apply
-    stage('Terraform Apply') {
+    stage('apply') {
       node {
         dir (TEST_DIR) {
           withCredentials([[
@@ -52,8 +66,8 @@ try {
       }
     }
 
-    // Run terraform otuputs
-    stage('Run Unit Tests') {
+    // Run terraform show
+    stage('show') {
       node {
         dir (TEST_DIR) {
           withCredentials([[
@@ -63,12 +77,7 @@ try {
             secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
           ]]) {
             ansiColor('xterm') {
-              sh """
-              mkdir -p ./verify/files
-              rm -f ./verify/inspec.lock
-              terraform output --json > ./verify/files/terraform.json
-              inspec exec verify --chef-license accept-silent --reporter cli junit:verify/files/testresults.xml -t aws://
-              """
+              sh 'terraform show'
             }
           }
         }
