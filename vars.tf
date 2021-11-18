@@ -2,7 +2,7 @@
 
 variable "instance_type" {
   description = "Type of instances"
-  default = "t2.medium"
+  default = "t2.micro"
 }
 
 variable "ec2_create" {
