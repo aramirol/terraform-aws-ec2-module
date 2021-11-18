@@ -11,7 +11,7 @@ provider "aws" {
   skip_requesting_account_id  = true
 
 
-#  endpoints {
+  endpoints {
 #    apigateway     = "http://192.168.1.196:31566" 
 #    cloudformation = "http://192.168.1.196:31566"
 #    cloudwatch     = "http://192.168.1.196:31566"
