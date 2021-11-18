@@ -2,8 +2,8 @@
 
 provider "aws" {
   #access_key                  = "mock_access_key"
-  region                      = "us-east-1"
-  shared_credentials_file     = "/$HOME/.aws/credentials"
+  region                      = "eu-central-1"
+  #shared_credentials_file     = "/$HOME/.aws/credentials"
   #s3_force_path_style         = true
   #secret_key                  = "mock_secret_key"
   #skip_credentials_validation = true
