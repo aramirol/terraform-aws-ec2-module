@@ -101,6 +101,7 @@ try {
               source .venv/bin/activate
               pip install --upgrade pip
               pip install -r python-dependencies.txt
+              source .venv/bin/activate
               python -m pytest -v -s --color=yes -o junit_family=xunit2 --junitxml=test-reports/junit.xml boto_mod.py
               """
             }
