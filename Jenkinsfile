@@ -3,6 +3,13 @@ String credentialsId = 'aws_test'
 
 def TEST_DIR='./tests'
 
+awsprofile = """
+[${AWS_ACCOUNT_ID}]
+aws_access_key_id = ${AWS_ACCESS_KEY_ID}
+aws_secret_access_key = ${AWS_SECRET_ACCESS_KEY}
+region = ${AWS_DEFAULT_REGION}
+"""
+
 try {
   stage('checkout') {
     node {
@@ -64,6 +71,8 @@ try {
           ]]) {
             ansiColor('xterm') {
               sh """
+              mkdir -p ./verify/files
+              rm -f ./verify/inspec.lock
               terraform output --json > ./verify/files/terraform.json
               inspec exec verify --chef-license accept-silent --reporter cli junit:verify/files/testresults.xml -t aws://
               """
