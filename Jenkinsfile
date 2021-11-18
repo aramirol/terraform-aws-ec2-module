@@ -84,6 +84,31 @@ try {
       }
     }
 
+    // Run terraform show
+    stage('Run unit tests') {
+      node {
+        dir (TEST_DIR) {
+          withCredentials([[
+            $class: 'AmazonWebServicesCredentialsBinding',
+            credentialsId: credentialsId,
+            accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+            secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+          ]]) {
+            ansiColor('xterm') {
+              sh """
+              terraform output --json > TERRAFORM_OUTPUT.json
+              /opt/python/3/bin/python3 -m venv .venv
+              source .venv/bin/activate
+              pip install --upgrade pip
+              pip install -r python-dependencies.txt
+              python -m pytest -v -s --color=yes -o junit_family=xunit2 --junitxml=test-reports/junit.xml boto_mod.py
+              """
+            }
+          }
+        }
+      }
+    }
+
     // Run terraform destroy
     stage('destroy') {
       node {
