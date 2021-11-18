@@ -32,7 +32,7 @@ provider "aws" {
 #    ssm            = "http://192.168.1.196:31566"
 #    stepfunctions  = "http://192.168.1.196:31566"
 #    sts            = "http://192.168.1.196:31566"
-#  }
+  }
 }
 
 # EC2 module
