@@ -1,0 +1,9 @@
+<?xml version='1.0'?>
+<testsuites>
+  <testsuite name='ec2tests' tests='3' failed='0' failures='0'>
+    <testcase name='EC2 Instance i-045427e8f9b01fb4e is expected to exist' classname='ec2tests.EC2InstanceExists' target='aws://' time='0.001398775'/>
+    <testcase name='EC2 Instance i-045427e8f9b01fb4e is expected to be running' classname='ec2tests.EC2InstanceRunning' target='aws://' time='0.000153464'/>
+    <testcase name='EC2 Instance i-045427e8f9b01fb4e image_id is expected to eq &quot;ami-0a49b025fffbbdac6&quot;' classname='ec2tests.EC2CorrectAMI' target='aws://' time='0.001284896'/>
+  </testsuite>
+  <testsuite name='inspec-aws' tests='0' failed='0' failures='0'/>
+</testsuites>

@@ -1,0 +1,21 @@
+name: ec2tests
+title: AWS EC2 InSpec Profile tests
+maintainer: Angel Ramiro
+copyright: Angel Ramiro
+copyright_email: angel.ramirolatorre@gmail.com
+license: Apache-2.0
+summary: An InSpec Compliance Profile For AWS
+version: 0.1.0
+inspec_version: '~> 4'
+inputs:
+- name: aws_ec2_instance_name
+  required: false
+  # Below is deliberately left as a default empty string to allow the profile to run when this is not provided.
+  # Please see the README for more details.
+  value: ''
+  description: 'Optional Custom AWS EC2 Instance Name'
+depends:
+  - name: inspec-aws
+    url: https://github.com/inspec/inspec-aws/archive/v1.27.1.tar.gz
+supports:
+  - platform: aws
