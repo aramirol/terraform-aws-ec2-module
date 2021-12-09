@@ -10,9 +10,9 @@ instanceRegion = "eu-central-1"
 
 # Controls
 
-control "EC2InstanceExists" do
+control "aws-ec2-001" do
   impact 1.0
-  title "EC2 Instance Exists Test"
+  title "Setup a EC2 instance"
   desc "Checking if the AWS EC2 Instance has been successfully created"
   
   describe aws_ec2_instance(instance_id: instanceName, aws_region: instanceRegion) do
@@ -20,9 +20,9 @@ control "EC2InstanceExists" do
   end
 end
 
-control "EC2InstanceRunning" do
+control "aws-ec2-002" do
   impact 1.0
-  title "EC2 Instance is Running"
+  title "EC2 instance is in running state"
   desc "Checking if the AWS EC2 Instance is in Running State"
 
   describe aws_ec2_instance(instance_id: instanceName, aws_region: instanceRegion) do
@@ -30,9 +30,9 @@ control "EC2InstanceRunning" do
   end
 end
 
-control "EC2CorrectAMI" do
+control "aws-ec2-003" do
   impact 1.0
-  title "EC2 Instance AMI Test"
+  title "Setup with specified AMI"
   desc "Checking if the AWS EC2 Instance has the correct AMI"
 
   describe aws_ec2_instance(instance_id: instanceName, aws_region: instanceRegion) do
