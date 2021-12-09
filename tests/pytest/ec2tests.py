@@ -1,35 +1,40 @@
-# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
-# SPDX-License-Identifier: Apache-2.0
-
-"""
-Unit tests for bucket_wrapper.py functions.
-"""
-
-import io
-from urllib.parse import urlparse
-import uuid
+import os
+import json
+import boto3
 import pytest
 
-from botocore.exceptions import ClientError
 
-import bucket_wrapper
+# Test if there are more than 0 instances
+def test_ec2_instance_created():
+    # Call EC2 to list current instances
+	ec2 = boto3.client('ec2', region_name='eu-central-1')
+	response = ec2.describe_instance_status()
+	
+	# Get a list of all instances IDs from the response
+	instances = [instance['InstanceId'] for instance in response['InstanceStatuses']]
 
-def test_bucket_exists(stub_and_patch, make_unique_name, make_bucket):
-    """Test that bucket existence is correctly determined."""
-    stubber = stub_and_patch(bucket_wrapper, 'get_s3')
+	assert len(instances) >= 1
 
-    bucket = make_bucket(stubber, bucket_wrapper.get_s3())
+# Print number of instances
+client = boto3.client('ec2')
+response = client.describe_instance_status()
+print(len(response['InstanceStatuses']))
 
-    stubber.stub_head_bucket(bucket.name)
 
-    assert bucket_wrapper.bucket_exists(bucket.name)
+# Print the name of the bucket
+ec2 = boto3.client('ec2', region_name='eu-central-1')
+response = ec2.describe_instance_status()
+print('Existing Instances:')
+for instance in response['InstanceStatuses']:
+    if instance["InstanceId"] == "i-05b670a646c40399c":
+        print(f'  {instance["InstanceId"]}')
 
-def test_bucket_not_exists(stub_and_patch, make_unique_name, make_bucket):
-    """Test that bucket nonexistence is correctly determined."""
-    stubber = stub_and_patch(bucket_wrapper, 'get_s3')
-    bucket_name = make_unique_name('bucket')
 
-    stubber.stub_head_bucket(bucket_name, error_code='NoSuchBucket')
+# Test if I can list all buckets
+def test_ec2_instances_list():
+    # Call EC2 to list current instances
+	ec2 = boto3.client('ec2', region_name='eu-central-1')
+	response = ec2.describe_instance_status()
 
-    assert not bucket_wrapper.bucket_exists(bucket_name)
-    
+	# Get a list of all bucket names from the response
+	assert [instance['InstanceId'] for instance in response['InstanceStatuses']]
