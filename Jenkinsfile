@@ -84,7 +84,7 @@ pipeline{
                     . .venv/bin/activate
                     pip install --upgrade pip
                     pip install -r python-dependencies.txt
-                    python3 -m pytest -v -s --color=yes -o junit_family=xunit2 --junitxml=./reports/junits_out.xml ../pytest/ec2tests.py
+                    python3 -m pytest -v -s --color=yes -o junit_family=xunit2 --junitxml=./reports/junits_out.xml ec2tests.py
                     """
                 }
               }
