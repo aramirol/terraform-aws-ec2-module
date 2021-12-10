@@ -7,9 +7,13 @@ Tests check that EC2 instance exists and is running.
 ## Changelog
 [View Changelog](CHANGELOG.md)
 
+## Dependencies
+
+[Python Unit Test dependencies](python-dependencies.txt)
+
 ## Test Script
 
-- `ec2tests.rb` : Check the information of EC2.
+- `ec2tests.py` : Check the information of EC2.
 
 ## Corresponding Requirements
 
@@ -24,7 +28,7 @@ A script is running in jenkins pipeline to auto convert the terraform output jso
 The script is as followings:
 
 ```
-terraform output --json > ./inspec/files/terraform_output.json
+terraform output --json > ./tests/terraform_output.json
 ```
 
 ## Run the Test Cases
@@ -34,5 +38,5 @@ Run test cases through scripts in the Jenkins pipeline.
 The script is as followings:
 
 ```sh
-inspec exec inspec -t aws:// --chef-license accept-silent --reporter cli junit:./inspec/reports/junits_out.xml
+python3 -m pytest -v -s --color=yes -o junit_family=xunit2 --junitxml=./reports/junits_out.xml ../pytest/ec2tests.py
 ```
