@@ -58,19 +58,25 @@ output "ec2_all" {
 
 | Name | Type | Required | Description |
 | ---- | ---- | -------- | ----------- |
-| **bucket_name** | `string` | yes | Name of the S3 bucket |
-| **bucket_acl** | `string` | yes | ACL policy of the S3 bucket. Private by default |
-| **bucket_region** | `string` | yes | Region where S3 bucket will located. "eu-central-1" by defaut |
-| **bucket_tag_name** | `string` | yes | A tag with a name to the S3 bucket |
-| **bucket_tag_env** | `string` | yes | A tag with the environment where S3 bucket will be located |
-| **bucket_key_deletion_days** | `number` | yes | A number of days between 7 and 30 |
+| **ec2_create** | `string` | no | Conditional var to create instance |
+| **ec2_type** | `string` | yes | Type of the instance. `t2.micro` by default |
+| **ec2_region** | `string` | yes | Region where instance will located. `eu-central-1` by defaut |
+| **ec2_tag_name** | `string` | yes | A tag with a name to the instance |
+| **ec2_tag_env** | `string` | yes | A tag with the environment where instance will be located |
+| **ec2_ami** | `string` | yes | The OS that the instance will use. |
+| **user_data** | `string` | no | To enter text in a file |
+| **ec2_instance_port** | `number` | no | Instance SSH port. 22 by default |
+| **placement_group** | `string` | no | The placement group to deploy the EC2 instance |
+| **private_ip** | `string` | no | The private IP to the instance |
 
 ## Outputs
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| **bucket_name** | `string` | Name of the S3 bucket created |
-| **bucket_acl** | `string` | ACL policy of the S3 bucket created |
+| **ec2_ip** | `string` | EC2 instance IP |
+| **ec2_type** | `string` | EC2 instance type |
+| **ec2_id** | `string` | EC2 instance ID |
+| **ec2_name** | `string` | EC2 instance tag name |
 
 ## Dependencies
 
