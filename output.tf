@@ -19,3 +19,8 @@ output "ec2_name" {
   description = "Instance Name"
    value = "${aws_instance.ec2.*.tags.Name}"
 }
+
+output "ec2_ami" {
+  description = "Instance AMI"
+   value = "${aws_instance.ec2.*.ami}"
+}
