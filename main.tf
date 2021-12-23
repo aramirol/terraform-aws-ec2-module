@@ -4,17 +4,15 @@
 # Get AZ subnet from 1a
 ##################################################
 data "aws_subnet" "az_a" {
-    availability_zone = "eu-central-1a"
+    availability_zone = "${var.ec2_region}a"
 }
 
 # Create EC2 instance
 ##################################################
 resource "aws_instance" "ec2" {
-#  count                   = contains(var.ec2_create, "yes") == true ? 1 : 0 # Execute this resource if "ec2_create" var is set to yes.
   count                   = 1
   ami                     = var.ec2_ami
   instance_type           = var.ec2_type
-#  key_name                = aws_key_pair.ec2-key.key_name
   user_data               = var.user_data
   placement_group         = var.placement_group
   private_ip              = var.private_ip
@@ -31,22 +29,6 @@ resource "aws_instance" "ec2" {
     Environment = var.ec2_tag_env
   }
 }
-
-# Defining tls key
-##################################################
-#resource "tls_private_key" "key" {
-#  algorithm = "RSA"
-#  rsa_bits  = 4096
-#  provider = tls.key
-#}
-
-# Defining keypair
-##################################################
-#resource "aws_key_pair" "ec2-key" {
-#  key_name   = "${var.ec2_tag_name}-ec2-key"
-#  public_key = tls_private_key.key.public_key_openssh
-#}
-
 
 # Defining main sg
 ##################################################
