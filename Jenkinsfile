@@ -2,24 +2,21 @@
 
 // Defining AWS Credentials
 def credentialsForTestWrapper(block) {
-    // it's a module repo, we only use dev credentials for developing and testing
-    // once code has been merged to master, use dev credentials to finish the unit testing
     withCredentials([
         [
-            $class: 'ConjurSecretApplianceCredentialsBinding',
-            credentialsId: "cpiactoolchain",
-            sPath: "projects/iactcprd/prod/variables/TERRA_EXAMPLE_AK",
-            // variable: 'TERRA_EXAMPLE_AK'
-            variable: 'AWS_ACCESS_KEY_ID'
+            $class: 'AmazonWebServicesCredentialsBinding',
+            credentialsId: "aws_test",
+            accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+            //secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
         ],
         [
-            $class: 'ConjurSecretApplianceCredentialsBinding',
-            credentialsId: "cpiactoolchain",
-            sPath: "projects/iactcprd/prod/variables/TERRA_EXAMPLE_SK",
-            // variable: 'TERRA_EXAMPLE_SK'
-            variable: 'AWS_SECRET_ACCESS_KEY'
+            $class: 'AmazonWebServicesCredentialsBinding',
+            credentialsId: "aws_test",
+            //accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+            secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
         ],
-    ]) {
+    ])
+    {
         block.call()
     }
 }
@@ -29,9 +26,7 @@ def TEST_DIR='./tests'
 
 // Init pipeline
 pipeline{
-    agent {
-        label 'CCC-WORKER'
-    }
+    agent any
 
     options {
         ansiColor('xterm')
@@ -63,20 +58,20 @@ pipeline{
             }
         }
 
-//        stage("Run unit test with InSpec") {
-//            steps {
-//              dir (TEST_DIR) {
-//                credentialsForTestWrapper {
-//                    sh """
-//                    rm -f ./inspec/inspec.lock
-//                    rm -f ./inspec/files/terraform_output.json
-//                    terraform output --json > ./inspec/files/terraform_output.json
-//                    inspec exec inspec -t aws:// --chef-license accept-silent --reporter cli junit:./inspec/reports/junits_out.xml
-//                    """
-//                }
-//              }
-//            }
-//        }
+        stage("Run unit test with InSpec") {
+            steps {
+              dir (TEST_DIR) {
+                credentialsForTestWrapper {
+                    sh """
+                    rm -f ./inspec/inspec.lock
+                    rm -f ./inspec/files/terraform_output.json
+                    terraform output --json > ./inspec/files/terraform_output.json
+                    inspec exec inspec -t aws:// --chef-license accept-silent --reporter cli junit:./inspec/reports/junits_out.xml
+                    """
+                }
+              }
+            }
+        }
 
         stage("Run unit test with PyTest") {
             steps {
