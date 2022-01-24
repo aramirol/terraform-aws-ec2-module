@@ -4,7 +4,7 @@
 # Get AZ subnet from 1a
 ##################################################
 data "aws_subnet" "az_a" {
-    availability_zone = "eu-central-1a"
+    availability_zone = "${var.ec2_region}a"
 }
 
 # Create EC2 instance
@@ -52,7 +52,7 @@ resource "aws_instance" "ec2" {
 ##################################################
 resource "aws_security_group" "ec2_sg" {
     name = "${var.ec2_tag_name}-sg"
-    vpc_id = var.vpc_id
+#    vpc_id = var.vpc_id
 
     ingress {
         cidr_blocks = ["0.0.0.0/0"]
