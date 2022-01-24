@@ -21,13 +21,13 @@ variable "ec2_region" {
 variable "ec2_tag_name" {
   description = "Tag Name"
   type = string
-  default = "roche-test"
+  default = "roche-tf-module-test"
 }
 
 variable "ec2_tag_env" {
   description = "Tag Environment"
   type = string
-  default = "dev-test"
+  default = "roche-dev-test"
 }
 
 variable "ec2_ami" {
@@ -55,4 +55,9 @@ variable "placement_group" {
 variable "private_ip" {
   description = "private IP"
   default = null
+}
+
+variable "vpc_id" {
+  description = "VPC ID to Security Group"
+  default = "vpc-01b8a89c5e5e98da4"
 }

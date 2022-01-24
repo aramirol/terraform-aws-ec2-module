@@ -1,11 +1,10 @@
 # Terraform EC2 Module example
 
-![](https://img.shields.io/badge/terraform-v1.0.9-blueviolet?logo=terraform)
-![](https://img.shields.io/badge/aws-3.63.0-yellow?logo=amazonaws)
-
-[![Build Status (Master)](https://rbalvjenkinm.bas.roche.com/job/IAC_ENG/job/IAC_ENG/job/terraform-module-aws-vpc-example/job/master/badge/icon)](https://rbalvjenkinm.bas.roche.com/job/IAC_ENG/job/IAC_ENG/job/terraform-module-aws-vpc-example/job/master/)
+[![Build Status (Master)](https://rbalvjenkinm.bas.roche.com/job/IAC_ENG/job/IAC_ENG/job/terraform-module-aws-ec2-example/job/master/badge/icon)](https://rbalvjenkinm.bas.roche.com/job/IAC_ENG/job/IAC_ENG/job/terraform-module-aws-ec2-example/job/master/)
 
 ## Introduction
+
+![](https://img.shields.io/badge/terraform-v1.0.9-blueviolet?logo=terraform) ![](https://img.shields.io/badge/aws-3.60.0-yellow?logo=amazonaws)
 
 This code is an example of a terraform module. Create an EC2 instance with some additional settings like security-group.
 
@@ -26,7 +25,7 @@ TECH-CICD: Jenkinsfile\
 ## From command line
 
 ```sh
-$ git clone -b 0.1.0 –-depth 1 https://bitbk.roche.com/scm/iac_eng/terraform-module-aws-ec2-example.git
+$ git clone -b 1.0.0 –-depth 1 https://bitbk.roche.com/scm/iac_eng/terraform-module-aws-ec2-example.git
 $ cd terraform-module-aws-ec2-example
 $ terraform init
 $ terraform validate
@@ -68,6 +67,7 @@ output "ec2_all" {
 | **ec2_instance_port** | `number` | no | Instance SSH port. 22 by default |
 | **placement_group** | `string` | no | The placement group to deploy the EC2 instance |
 | **private_ip** | `string` | no | The private IP to the instance |
+| **vpc_id** | `string` | no | The VPN ID that the instance will use |
 
 ## Outputs
 
@@ -77,6 +77,7 @@ output "ec2_all" {
 | **ec2_type** | `string` | EC2 instance type |
 | **ec2_id** | `string` | EC2 instance ID |
 | **ec2_name** | `string` | EC2 instance tag name |
+| **ec2_ami** | `string` | EC2 instance AMI |
 
 ## Dependencies
 
