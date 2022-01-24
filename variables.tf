@@ -59,5 +59,5 @@ variable "private_ip" {
 
 variable "vpc_id" {
   description = "VPC ID to Security Group"
-  default = "vpc-01b8a89c5e5e98da4"
+  default = "null"
 }
