@@ -3,7 +3,7 @@
 variable "ec2_create" {
   description = "Conditional Var"
   type = list
-  default = []
+  default = ["no"]
 }
 
 variable "ec2_count" {
