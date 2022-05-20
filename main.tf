@@ -30,6 +30,7 @@ resource "aws_instance" "ec2" {
     Name = "${var.ec2_tag_name}-${count.index}"
     Environment = var.ec2_tag_env
   }
+
   depends_on = [
     aws_security_group.ec2_sg
   ]
