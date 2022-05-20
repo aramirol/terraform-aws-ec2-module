@@ -6,6 +6,12 @@ variable "ec2_create" {
   default = []
 }
 
+variable "ec2_count" {
+  description = "Number of instances"
+  type = number
+  default = 1
+}
+
 variable "ec2_type" {
   description = "Type of instances"
   type = string
