@@ -68,7 +68,7 @@ resource "aws_security_group" "ec2_sg" {
 
     egress {
         cidr_blocks = ["0.0.0.0/0"]
-        description = "Acceso al puerto 8080 desde nuestros servidores"
+        description = "Access to port 8080 from our servers"
         from_port = 0
         to_port = 0
         protocol = "TCP"
