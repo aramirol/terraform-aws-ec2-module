@@ -10,8 +10,8 @@ data "aws_subnet" "az_a" {
 # Create EC2 instance
 ##################################################
 resource "aws_instance" "ec2" {
-#  count                   = contains(var.ec2_create, "yes") == true ? 1 : 0 # Execute this resource if "ec2_create" var is set to yes.
-  count                   = var.ec2_count
+  count                   = contains(var.ec2_create, "yes") == true ? 1 : 0 # Execute this resource if "ec2_create" var is set to yes.
+#  count                   = var.ec2_count
   ami                     = var.ec2_ami
   instance_type           = var.ec2_type
 #  key_name                = aws_key_pair.ec2-key.key_name
