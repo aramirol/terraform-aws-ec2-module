@@ -11,6 +11,8 @@ provider "aws" {
 ##################################################
 module "ec2" {
   source  = "../"
+  
+  ec2_create = ["yes"]
 }
 
 output "ec2_all" {
